@@ -38,4 +38,32 @@ class Handler extends ExceptionHandler
             //
         });
     }
+
+    /**
+     * Render an exception into an HTTP response.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Throwable  $exception
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @throws \Throwable
+     */
+    public function render($request, Throwable $exception)
+    {
+        /*if ($exception->getPrevious() instanceof TokenExpiredException) {
+            return response()->json(['msg' => '过期的token','code'=>-1]);
+        } else if ($exception->getPrevious() instanceof TokenInvalidException) {
+            return response()->json(['msg' => '错误的token','code'=>-1]);
+        }  else if ($exception->getPrevious() instanceof TokenBlacklistedException) {
+            return response()->json(['error' => '列入黑名单']);
+        } 
+
+        if ($exception instanceof UnauthorizedHttpException) {
+            return response()->json(['msg' => '没有提供token，请登陆获取','code'=>-1]);
+        }*/
+        if (auth('api')->guest()) {
+            return response()->json(['msg' => 'token错误','code'=>-1]);
+        }
+        return parent::render($request, $exception);
+    }
 }

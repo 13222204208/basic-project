@@ -3,17 +3,51 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
+Route::prefix('minapp')->group(function (){
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+    Route::group(['namespace' => 'Minapp\User'], function () {
+
+        Route::post('login', 'LoginController@login');//用户登陆
+        Route::get('agreement', 'AgreementController@agreement');//服务协议
+
+        Route::group(['middleware' => 'auth:api'], function () {   
+            Route::post('upload-img', 'RealNameController@uploadImg');//上传图片      
+            Route::post('real-name', 'RealNameController@realName');//实名认证    
+
+            Route::post('store-address', 'AddressController@storeAddress');//添加新地址
+            Route::get('address-list', 'AddressController@addressList');//地址列表
+            Route::post('del-address', 'AddressController@delAddress');//删除地址
+            Route::post('update-address', 'AddressController@updateAddress');//更新地址
+
+        });
+    });
+
+    Route::group(['namespace' => 'Minapp\Order'], function () {
+        
+        Route::group(['middleware' => 'auth:api'], function () {   
+            Route::post('store-order', 'ExpressOrderController@storeOrder');//发货
+            Route::get('order-list', 'ExpressOrderController@orderList');//订单列表
+        });
+    });
+
+    Route::group(['namespace' => 'Minapp\GoodsType'], function () {
+            Route::get('goods-type', 'GoodsTypeController@goodsType');//物品类型
+    });
+});
+
+Route::prefix('admin')->group(function (){
+
+    Route::group(['namespace' => 'Admin'], function () {
+
+        Route::post('login','LoginController@adminLogin');//登录
+
+        Route::post('logout','LoginController@adminLogout');//登出
+
+        Route::group(['middleware' => 'auth:admin'], function () {
+            Route::get('info','LoginController@info');//获取后台登陆信息    
+            
+            Route::resource('admin', 'AdminController');//后台帐号  
+        });
+    });
+
 });

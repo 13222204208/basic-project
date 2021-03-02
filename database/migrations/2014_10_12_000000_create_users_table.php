@@ -15,8 +15,8 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            //$table->string('wx_id')->unique()->comment('微信号');
-            //$table->string('wx_session_key')->unique()->comment('微信的session_key');
+            $table->string('wx_id')->unique()->comment('微信号');
+            $table->string('wx_session_key')->unique()->comment('微信的session_key');
             $table->string('username')->unique()->comment('用户名');
             $table->string('password')->default('')->comment('密码');
             $table->string('phone',11)->default('')->comment('手机号');

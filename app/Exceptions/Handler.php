@@ -49,7 +49,7 @@ class Handler extends ExceptionHandler
      * @throws \Throwable
      */
     public function render($request, Throwable $exception)
-    {
+    { 
         /*if ($exception->getPrevious() instanceof TokenExpiredException) {
             return response()->json(['msg' => '过期的token','code'=>-1]);
         } else if ($exception->getPrevious() instanceof TokenInvalidException) {

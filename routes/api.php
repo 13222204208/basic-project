@@ -43,10 +43,15 @@ Route::prefix('admin')->group(function (){
 
         Route::post('logout','LoginController@adminLogout');//登出
 
+        Route::post('upload/img','UploadImgController@uploadImg');//上传图片
+        
         Route::group(['middleware' => 'auth:admin'], function () {
             Route::get('info','LoginController@info');//获取后台登陆信息    
             
             Route::resource('admin', 'AdminController');//后台帐号  
+           
+            Route::resource('banner', 'BannerController');//banner图
+           
         });
     });
 

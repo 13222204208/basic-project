@@ -17,7 +17,7 @@ class CreateAdminsTable extends Migration
             $table->id();
             $table->string('username')->unique();
             $table->string('password');
-            $table->string('name')->nullable();
+            $table->string('name')->default('超级管理员');
             $table->string('roles')->nullable();
             $table->string('email')->nullable();
             $table->string('introduction')->nullable()->comment('自我介绍');

@@ -51,7 +51,16 @@ Route::prefix('admin')->group(function (){
             Route::resource('admin', 'AdminController');//后台帐号  
            
             Route::resource('banner', 'BannerController');//banner图
-           
+            
+            Route::resource('activity', 'ActivityController');//活动
+            
+            Route::resource('channel', 'ChannelController');//频道
+
+            Route::resource('content', 'ContentController');//内容
+
+            Route::resource('course', 'CourseController');//课程
+
+            Route::resource('affiche', 'AfficheController');//公告
         });
     });
 

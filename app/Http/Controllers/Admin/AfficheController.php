@@ -82,7 +82,12 @@ class AfficheController extends Controller
      */
     public function edit($id)
     {
-        //
+        try {
+            $data= Affiche::find($id);
+            return $this->success($data);
+        } catch (\Throwable $th) {
+            return $this->failed($th->getMessage());
+        }
     }
 
     /**
@@ -92,9 +97,18 @@ class AfficheController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(AddAfficheRequest $request, $id)
     {
-        //
+        try {
+            $data= $request->only('content','time');
+            $data['start_time']= $data['time'][0];
+            $data['stop_time']= $data['time'][1];
+            unset($data['time']);
+            Affiche::where('id',$id)->update($data);
+            return $this->success();
+        } catch (\Throwable $th) {
+            return $this->failed($th->getMessage());  
+        }
     }
 
     /**

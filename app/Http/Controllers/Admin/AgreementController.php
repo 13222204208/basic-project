@@ -2,39 +2,25 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Course;
+use App\Models\Agreement;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\AddCourseRequest;
+use App\Traits\ImgUrl;
+use App\Traits\UploadImage;
 
-class CourseController extends Controller
+class AgreementController extends Controller
 {
+    use UploadImage, ImgUrl;
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
         try {
-            $all= $request->all();
-            $limit = $all['limit'];
-            $page = ($all['page'] -1)*$limit;
-            $title = false;
-            if(isset($all['title'])){
-                $title = $all['title'];
-            }
-            $item= Course::when($title,function($query) use ($title){
-                return $query->where('title','like','%'.$title.'%');
-            })->skip($page)->take($limit)->get();
-    
-            $total= Course::when($title,function($query) use ($title){
-                return $query->where('title','like','%'.$title.'%');
-            })->count();
-    
-            $data['item'] = $item;
-            $data['total'] = $total;
-            return $this->success($data); 
+            $data= Agreement::all();     
+            return $this->success($data);
         } catch (\Throwable $th) {
             return $this->failed($th->getMessage());
         }
@@ -56,14 +42,15 @@ class CourseController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(AddCourseRequest $request)
+    public function store(Request $request)
     {
         try {
-            $data= $request->only('title','cover','content','price','sort','is_recommend');;
-            Course::create($data);
+            $data= array_filter($request->only('type','content','title'));
+            $data['content']= $this->delImgUrl($data['content']);
+            Agreement::create($data);
             return $this->success();
         } catch (\Throwable $th) {
-            return $this->failed($th->getMessage());  
+            return $this->failed($th->getMessage());
         }
     }
 
@@ -87,10 +74,10 @@ class CourseController extends Controller
     public function edit($id)
     {
         try {
-            $data= Course::find($id);
+            $data= Agreement::find($id);
             return $this->success($data);
         } catch (\Throwable $th) {
-            return $this->failed($th->getMessage());  
+            return $this->failed($th->getMessage());
         }
     }
 
@@ -101,14 +88,16 @@ class CourseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(AddCourseRequest $request, $id)
+    public function update(Request $request, $id)
     {
         try {
-            $data= $request->only('title','cover','content','price','sort','is_recommend');
-            Course::where('id',$id)->update($data);
+            $data= array_filter($request->only('type','content','title'));
+            $data['content']= $this->delImgUrl($data['content']);
+            unset($data['id']);
+            Agreement::where('id',$id)->update($data);
             return $this->success();
         } catch (\Throwable $th) {
-            return $this->failed($th->getMessage());  
+            return $this->failed($th->getMessage());
         }
     }
 
@@ -121,10 +110,11 @@ class CourseController extends Controller
     public function destroy($id)
     {
         try {
-            Course::destroy($id);
-            return $this->success();
+            $data= Agreement::destroy($id);
+            return $this->success($data);
         } catch (\Throwable $th) {
             return $this->failed($th->getMessage());
         }
     }
+
 }

@@ -29,23 +29,13 @@ Route::prefix('admin')->group(function (){
         Route::post('logout','LoginController@adminLogout');//登出
 
         Route::post('upload/img','UploadImgController@uploadImg');//上传图片
+        Route::post('upload/content/img','UploadImgController@uploadContentImg');//上传富文本图片
         
         Route::group(['middleware' => 'auth:admin'], function () {
             Route::get('info','LoginController@info');//获取后台登陆信息    
             
             Route::resource('admin', 'AdminController');//后台帐号  
-           
-            Route::resource('banner', 'BannerController');//banner图
-            
-            Route::resource('activity', 'ActivityController');//活动
-            
-            Route::resource('channel', 'ChannelController');//频道
-
-            Route::resource('content', 'ContentController');//内容
-
-            Route::resource('course', 'CourseController');//课程
-
-            Route::resource('affiche', 'AfficheController');//公告
+            Route::resource('agreement', 'AgreementController');//协议
         });
     });
 

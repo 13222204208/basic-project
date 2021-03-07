@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Traits\ImgUrl;
 use App\Models\Agreement;
+use App\Traits\UploadImage;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Traits\ImgUrl;
-use App\Traits\UploadImage;
+use App\Http\Requests\AgreementRequest;
 
 class AgreementController extends Controller
 {
@@ -42,7 +43,7 @@ class AgreementController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AgreementRequest $request)
     {
         try {
             $data= array_filter($request->only('type','content','title'));

@@ -2,21 +2,10 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Contracts\Validation\Validator;
-use Illuminate\Http\Exceptions\HttpResponseException;
+use App\Http\Requests\BasicRequest;
 
-class AddAdminRequest extends FormRequest
+class AddAdminRequest extends BasicRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return true;
-    }
 
     /**
      * Get the validation rules that apply to the request.
@@ -41,14 +30,6 @@ class AddAdminRequest extends FormRequest
             'phone.regex' => '手机格式无效',
             'username.unique' => '用户名已重复',
         ];
-    }
-
-    public function failedValidation(Validator $validator)
-    {
-        throw (new HttpResponseException(response()->json([
-            'code' => 0,
-            'msg' => $validator->errors()->first(),
-        ], 200)));
     }
 
 }

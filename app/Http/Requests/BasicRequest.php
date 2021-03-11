@@ -2,12 +2,14 @@
 
 namespace App\Http\Requests;
 
+use App\Traits\ApiResponse;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
 class BasicRequest extends FormRequest
 {
+    use ApiResponse;
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -21,10 +23,7 @@ class BasicRequest extends FormRequest
 
     public function failedValidation(Validator $validator)
     {
-        throw (new HttpResponseException(response()->json([
-            'code' => 0,
-            'msg' => $validator->errors()->first(),
-        ], 200)));
+        throw (new HttpResponseException($this->failed($validator->errors()->first())));
     }
 
 }

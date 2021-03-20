@@ -36,6 +36,8 @@ Route::prefix('admin')->group(function (){
             
             Route::resource('admin', 'AdminController');//后台帐号  
             Route::resource('agreement', 'AgreementController');//协议
+
+            Route::resource('menu', 'MenuController');//后台菜单
         });
     });
 

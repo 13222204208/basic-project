@@ -26,7 +26,7 @@ class CreatePermissionTables extends Migration
             $table->string('guard_name');
 
             $table->bigInteger('pid')->default(0);
-            $table->string('title');
+            $table->string('title')->nullable();
             $table->string('icon')->nullable();
             $table->string('path')->nullable()->comment('访问路径');
             $table->string('component')->nullable()->comment('vue 对应的组件地址');

@@ -20,8 +20,7 @@ class RewritePermission extends Permission
      */
     public static function tree(): array
     {
-        $permissions = Permission::select(['id', 'pid', 'name', 'title', 'icon'])
-            ->orderByDesc('sort')
+        $permissions = Permission::orderByDesc('sort')
             ->get();
 
         return Arr::getTree($permissions->toArray());

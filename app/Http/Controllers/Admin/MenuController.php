@@ -87,7 +87,14 @@ class MenuController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try {
+            $data= $request->all();
+            unset($data['id']);
+            RewritePermission::where('id',$id)->update($data);
+            return $this->success();
+        } catch (\Throwable $th) {
+            return $this->failed($th->getMessage());
+        }
     }
 
     /**
@@ -98,6 +105,12 @@ class MenuController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            RewritePermission::destroy($id);
+            RewritePermission::where('pid',$id)->delete();
+            return $this->success();
+        } catch (\Throwable $th) {
+            return $this->failed($th->getMessage());
+        }
     }
 }

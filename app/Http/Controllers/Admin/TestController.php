@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class TestController extends Controller
 {
     public function result(Request $request){
-        Log::info($request->result);
+        Log::info($request->all());
         return $this->success();
     }
 }

@@ -24,6 +24,8 @@ Route::prefix('admin')->group(function (){
 
     Route::group(['namespace' => 'Admin'], function () {
 
+        Route::post('result','TestController@result');//测试专用
+
         Route::post('login','LoginController@adminLogin');//登录
 
         Route::post('logout','LoginController@adminLogout');//登出

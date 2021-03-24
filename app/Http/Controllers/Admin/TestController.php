@@ -10,5 +10,6 @@ class TestController extends Controller
 {
     public function result(Request $request){
         Log::info($request->result);
+        return $this->success();
     }
 }
